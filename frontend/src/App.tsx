@@ -39,7 +39,7 @@ export const AppContent: React.FC = () => {
     {
       id: 'tick-1',
       ticketCode: 'TICK-1001',
-      title: 'Ticket de Prueba Inicial — Verificación Docker y API',
+      title: 'Ticket de Prueba Inicial - Verificación Docker y API',
       requesterName: 'Administrador SATEM',
       status: 'OPEN',
       priority: 'HIGH',
@@ -74,7 +74,7 @@ export const AppContent: React.FC = () => {
     'tick-1': {
       id: 'tick-1',
       ticketCode: 'TICK-1001',
-      title: 'Ticket de Prueba Inicial — Verificación Docker y API',
+      title: 'Ticket de Prueba Inicial - Verificación Docker y API',
       description: 'Verificación del despliegue en contenedores Docker y correcto funcionamiento del backend de tickets y SLA.',
       requesterName: 'Administrador SATEM',
       status: 'OPEN',
@@ -105,37 +105,51 @@ export const AppContent: React.FC = () => {
       id: 'tick-2',
       ticketCode: 'TICK-1002',
       title: 'Problema de conectividad con VPN Corporativa Santiago',
-      description: 'El usuario no logra autenticarse al túnel VPN de Santiago desde las 08:30 AM tras cambio de credenciales.',
+      description: 'Usuario no puede conectar al gateway VPN desde su sucursal.',
       requesterName: 'Carlos Sepúlveda',
       status: 'NEW',
       priority: 'URGENT',
       slaHealth: 'WARNING',
-      slaDueText: 'Vence en 42m (Riesgo)',
-      createdAt: '2026-10-04 01:45',
-      messages: [
-        {
-          id: 'msg-201',
-          authorName: 'Carlos Sepúlveda',
-          authorRole: 'Requester',
-          type: 'PUBLIC_REPLY',
-          body: 'Adjunto captura del error 691. Me urge para acceder a los servidores de producción.',
-          createdAt: '01:45',
-        },
-      ],
+      slaDueText: 'Vence en 42m',
+      createdAt: '2026-10-04 02:10',
+      messages: [],
+    },
+    'tick-3': {
+      id: 'tick-3',
+      ticketCode: 'TICK-1003',
+      title: 'Solicitud de acceso a módulo de reportería analítica',
+      description: 'Requiere permisos de sólo lectura para auditoría mensual de KPIs.',
+      requesterName: 'María José Rivera',
+      status: 'PENDING',
+      priority: 'MEDIUM',
+      slaHealth: 'PENDING',
+      slaDueText: 'Pausado',
+      createdAt: '2026-10-04 02:15',
+      messages: [],
     },
   });
 
-  // Si no está autenticado, renderizar la pantalla de Login
+  // Si no está autenticado, mostramos la pantalla de login corporativa
   if (!isAuthenticated || !user) {
     return (
       <LoginView
         onBypassDemo={(role) => {
-          // Permite explorar como rol demo si el backend no estuviera corriendo
+          // Fallback de demostración rápida si el usuario pulsa botones rápidos
           const mockUser = {
-            id: role === 'REQUESTER' ? 'user-requester' : 'user-admin',
-            email: role === 'REQUESTER' ? 'cliente.demo@satem.cl' : 'admin@satem.cl',
-            fullName: role === 'REQUESTER' ? 'Carlos Sepúlveda (Cliente)' : 'Administrador SATEM',
-            role,
+            id: role === 'ORG_ADMIN' ? 'usr-admin' : role === 'SUPPORT_AGENT' ? 'usr-agent' : 'usr-client',
+            email:
+              role === 'ORG_ADMIN'
+                ? 'admin@satem.cl'
+                : role === 'SUPPORT_AGENT'
+                ? 'agente.demo@satem.cl'
+                : 'cliente.demo@satem.cl',
+            fullName:
+              role === 'ORG_ADMIN'
+                ? 'Administrador SATEM'
+                : role === 'SUPPORT_AGENT'
+                ? 'Patricio Soto (Soporte N2)'
+                : 'Carlos Sepúlveda (Cliente)',
+            role: role as any,
             tenantId: 'satem-demo',
           };
           sessionStorage.setItem('satem_helpdesk_user', JSON.stringify(mockUser));
@@ -356,7 +370,7 @@ export const AppContent: React.FC = () => {
   const isAdmin = user.role === 'ORG_ADMIN' || user.role === 'SUPER_ADMIN';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', overflow: 'hidden', backgroundColor: 'var(--bg-primary)' }}>
       {/* Barra de Navegación Global de Módulos */}
       <nav
         style={{
@@ -364,7 +378,7 @@ export const AppContent: React.FC = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#0f172a',
-          padding: '0 24px',
+          padding: '0 20px',
           height: '56px',
           borderBottom: '1px solid #1e293b',
           color: '#f8fafc',
@@ -377,26 +391,36 @@ export const AppContent: React.FC = () => {
               width: '32px',
               height: '32px',
               borderRadius: '8px',
-              background: 'linear-gradient(135deg, #2563eb, #38bdf8)',
+              backgroundColor: 'rgba(0, 168, 150, 0.15)',
+              border: '1px solid #00a896',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontWeight: 800,
-              fontSize: '14px',
+              boxShadow: '0 0 10px rgba(0, 168, 150, 0.2)',
             }}
           >
-            S
+            <img
+              src="/assets/logo-icon.png"
+              alt="SATEM"
+              style={{ height: '20px', filter: 'brightness(0) invert(1)' }}
+              onError={(e) => {
+                (e.currentTarget as HTMLElement).style.display = 'none';
+              }}
+            />
           </div>
-          <div>
-            <span style={{ fontWeight: 700, fontSize: '15px', letterSpacing: '-0.3px' }}>SATEM ONE</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontWeight: 700, fontSize: '15px', fontFamily: "'Outfit', sans-serif", letterSpacing: '-0.2px', color: '#f8fafc' }}>
+              SATEM <span style={{ color: '#00a896' }}>MDA</span>
+            </span>
             <span
               style={{
                 fontSize: '11px',
                 color: '#94a3b8',
-                marginLeft: '8px',
                 padding: '2px 6px',
                 backgroundColor: '#1e293b',
+                border: '1px solid #334155',
                 borderRadius: '4px',
+                fontWeight: 500,
               }}
             >
               {user.tenantId}
@@ -405,65 +429,80 @@ export const AppContent: React.FC = () => {
         </div>
 
         {/* Switcher de Vistas (Según Rol) */}
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: '6px' }}>
           {!isRequester && (
             <button
               onClick={() => setCurrentModule('AGENT')}
               style={{
-                backgroundColor: currentModule === 'AGENT' ? '#2563eb' : 'transparent',
-                color: currentModule === 'AGENT' ? '#fff' : '#94a3b8',
-                border: 'none',
+                backgroundColor: currentModule === 'AGENT' ? '#00a896' : 'transparent',
+                color: currentModule === 'AGENT' ? '#ffffff' : '#94a3b8',
+                border: currentModule === 'AGENT' ? '1px solid #008f80' : '1px solid transparent',
                 borderRadius: '6px',
-                padding: '8px 16px',
+                padding: '7px 14px',
                 fontSize: '13px',
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: currentModule === 'AGENT' ? '0 0 10px rgba(0, 168, 150, 0.25)' : 'none',
               }}
             >
-              🛠️ Workbench de Agente
+              <span>🎧</span>
+              <span>Workbench de Agente</span>
             </button>
           )}
 
           <button
             onClick={() => setCurrentModule('PORTAL')}
             style={{
-              backgroundColor: currentModule === 'PORTAL' ? '#2563eb' : 'transparent',
-              color: currentModule === 'PORTAL' ? '#fff' : '#94a3b8',
-              border: 'none',
+              backgroundColor: currentModule === 'PORTAL' ? '#00a896' : 'transparent',
+              color: currentModule === 'PORTAL' ? '#ffffff' : '#94a3b8',
+              border: currentModule === 'PORTAL' ? '1px solid #008f80' : '1px solid transparent',
               borderRadius: '6px',
-              padding: '8px 16px',
+              padding: '7px 14px',
               fontSize: '13px',
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.15s ease',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: currentModule === 'PORTAL' ? '0 0 10px rgba(0, 168, 150, 0.25)' : 'none',
             }}
           >
-            🙋‍♂️ Portal del Solicitante
+            <span>👤</span>
+            <span>Portal del Solicitante</span>
           </button>
 
           {isAdmin && (
             <button
               onClick={() => setCurrentModule('ADMIN')}
               style={{
-                backgroundColor: currentModule === 'ADMIN' ? '#2563eb' : 'transparent',
-                color: currentModule === 'ADMIN' ? '#fff' : '#94a3b8',
-                border: 'none',
+                backgroundColor: currentModule === 'ADMIN' ? '#00a896' : 'transparent',
+                color: currentModule === 'ADMIN' ? '#ffffff' : '#94a3b8',
+                border: currentModule === 'ADMIN' ? '1px solid #008f80' : '1px solid transparent',
                 borderRadius: '6px',
-                padding: '8px 16px',
+                padding: '7px 14px',
                 fontSize: '13px',
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: currentModule === 'ADMIN' ? '0 0 10px rgba(0, 168, 150, 0.25)' : 'none',
               }}
             >
-              ⚙️ Consola de Administración
+              <span>⚙️</span>
+              <span>Consola de Administración</span>
             </button>
           )}
         </div>
 
         {/* Perfil de Usuario, Estado de Conexión y Logout */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           {/* Indicador de Conexión */}
           <div
             style={{
@@ -473,18 +512,18 @@ export const AppContent: React.FC = () => {
               fontSize: '11px',
               fontWeight: 600,
               padding: '4px 8px',
-              borderRadius: '6px',
-              backgroundColor: isLiveApi ? 'rgba(34, 197, 94, 0.12)' : 'rgba(234, 179, 8, 0.12)',
-              border: isLiveApi ? '1px solid rgba(34, 197, 94, 0.3)' : '1px solid rgba(234, 179, 8, 0.3)',
-              color: isLiveApi ? '#4ade80' : '#facc15',
+              borderRadius: '9999px',
+              backgroundColor: isLiveApi ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+              border: isLiveApi ? '1px solid #10b981' : '1px solid #f59e0b',
+              color: isLiveApi ? '#10b981' : '#f59e0b',
             }}
           >
             <span
               style={{
-                width: '7px',
-                height: '7px',
+                width: '6px',
+                height: '6px',
                 borderRadius: '50%',
-                backgroundColor: isLiveApi ? '#22c55e' : '#eab308',
+                backgroundColor: isLiveApi ? '#10b981' : '#f59e0b',
                 display: 'inline-block',
               }}
             />
@@ -497,20 +536,21 @@ export const AppContent: React.FC = () => {
                 width: '32px',
                 height: '32px',
                 borderRadius: '50%',
-                backgroundColor: '#3b82f6',
+                backgroundColor: '#00a896',
                 color: '#fff',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontWeight: 700,
                 fontSize: '13px',
+                boxShadow: '0 0 8px rgba(0, 168, 150, 0.3)',
               }}
             >
               {user.fullName.charAt(0).toUpperCase()}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: '#f8fafc' }}>{user.fullName}</span>
-              <span style={{ fontSize: '11px', color: '#38bdf8' }}>{user.role}</span>
+              <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#f8fafc' }}>{user.fullName}</span>
+              <span style={{ fontSize: '11px', color: '#00a896', fontWeight: 500 }}>{user.role}</span>
             </div>
           </div>
 
@@ -518,17 +558,18 @@ export const AppContent: React.FC = () => {
             onClick={() => logout()}
             title="Cerrar Sesión"
             style={{
-              backgroundColor: 'transparent',
+              backgroundColor: '#1e293b',
               color: '#94a3b8',
               border: '1px solid #334155',
               borderRadius: '6px',
               padding: '6px 12px',
               fontSize: '12px',
               cursor: 'pointer',
+              fontWeight: 500,
               transition: 'all 0.15s ease',
             }}
           >
-            Salir ↩
+            Salir ⏻
           </button>
         </div>
       </nav>

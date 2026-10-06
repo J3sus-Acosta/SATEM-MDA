@@ -21,7 +21,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
     const result = await login(email, password, tenant);
     if (result.success) {
       if (onSuccess) {
-        // Obtenemos el usuario de la sesión
+        // Obtenemos el usuario de la sesion
         const stored = sessionStorage.getItem('satem_helpdesk_user');
         if (stored) {
           onSuccess(JSON.parse(stored));
@@ -43,7 +43,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
     setTenant('satem-demo');
     setErrorMessage(null);
 
-    // Si el usuario decide entrar en modo demostración directa
+    // Si el usuario decide entrar en modo demostracion directa
     if (onBypassDemo) {
       onBypassDemo(role);
     }
@@ -70,46 +70,64 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
           width: '100%',
           maxWidth: '460px',
           backgroundColor: '#0f172a',
-          border: '1px solid #1e293b',
+          border: '1px solid #334155',
           borderRadius: '16px',
-          padding: '40px',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(37, 99, 235, 0.1)',
+          padding: '36px 32px',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 168, 150, 0.15)',
         }}
       >
         {/* Brand Header */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <div
             style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #2563eb, #38bdf8)',
+              width: '64px',
+              height: '64px',
+              borderRadius: '16px',
+              backgroundColor: 'rgba(0, 168, 150, 0.15)',
+              border: '1px solid #00a896',
               margin: '0 auto 16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontWeight: 800,
-              fontSize: '22px',
-              color: '#ffffff',
-              boxShadow: '0 8px 16px rgba(37, 99, 235, 0.3)',
+              boxShadow: '0 0 20px rgba(0, 168, 150, 0.25)',
             }}
           >
-            S
+            <img
+              src="/assets/logo-icon.png"
+              alt="SATEM Logo"
+              style={{ height: '36px', filter: 'brightness(0) invert(1)' }}
+              onError={(e) => {
+                // Fallback si no carga la imagen
+                (e.currentTarget as HTMLElement).style.display = 'none';
+              }}
+            />
           </div>
-          <h1 style={{ margin: '0 0 8px', fontSize: '24px', fontWeight: 700, letterSpacing: '-0.5px' }}>
+          <h1
+            style={{
+              margin: '0 0 6px',
+              fontSize: '24px',
+              fontWeight: 700,
+              fontFamily: "'Outfit', sans-serif",
+              letterSpacing: '-0.3px',
+              color: '#f8fafc',
+            }}
+          >
             SATEM ONE
           </h1>
-          <p style={{ margin: 0, fontSize: '14px', color: '#94a3b8' }}>
-            Mesa de Ayuda & Service Desk Corporativo
+          <p style={{ margin: 0, fontSize: '13.5px', color: '#94a3b8' }}>
+            Mesa de Ayuda &amp; Service Desk Corporativo
           </p>
+          <span style={{ fontSize: '11px', color: '#00a896', fontWeight: 600, letterSpacing: '0.5px' }}>
+            SOLUCIONES INTELIGENTES SPA
+          </span>
         </div>
 
         {/* Error Alert */}
         {errorMessage && (
           <div
             style={{
-              backgroundColor: '#450a0a',
-              border: '1px solid #7f1d1d',
+              backgroundColor: 'rgba(239, 68, 68, 0.15)',
+              border: '1px solid #ef4444',
               color: '#fca5a5',
               padding: '12px 16px',
               borderRadius: '8px',
@@ -130,7 +148,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
           <div style={{ marginBottom: '16px' }}>
             <label
               htmlFor="tenant"
-              style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#cbd5e1' }}
+              style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, marginBottom: '6px', color: '#94a3b8' }}
             >
               Organización / Tenant
             </label>
@@ -145,11 +163,11 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
                 width: '100%',
                 boxSizing: 'border-box',
                 padding: '10px 14px',
-                borderRadius: '8px',
+                borderRadius: '6px',
                 border: '1px solid #334155',
-                backgroundColor: '#1e293b',
-                color: '#fff',
-                fontSize: '14px',
+                backgroundColor: '#0f172a',
+                color: '#f8fafc',
+                fontSize: '13.5px',
                 outline: 'none',
               }}
             />
@@ -158,7 +176,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
           <div style={{ marginBottom: '16px' }}>
             <label
               htmlFor="email"
-              style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#cbd5e1' }}
+              style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, marginBottom: '6px', color: '#94a3b8' }}
             >
               Correo Electrónico
             </label>
@@ -173,20 +191,20 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
                 width: '100%',
                 boxSizing: 'border-box',
                 padding: '10px 14px',
-                borderRadius: '8px',
+                borderRadius: '6px',
                 border: '1px solid #334155',
-                backgroundColor: '#1e293b',
-                color: '#fff',
-                fontSize: '14px',
+                backgroundColor: '#0f172a',
+                color: '#f8fafc',
+                fontSize: '13.5px',
                 outline: 'none',
               }}
             />
           </div>
 
-          <div style={{ marginBottom: '24px' }}>
+          <div style={{ marginBottom: '22px' }}>
             <label
               htmlFor="password"
-              style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#cbd5e1' }}
+              style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, marginBottom: '6px', color: '#94a3b8' }}
             >
               Contraseña
             </label>
@@ -201,11 +219,11 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
                 width: '100%',
                 boxSizing: 'border-box',
                 padding: '10px 14px',
-                borderRadius: '8px',
+                borderRadius: '6px',
                 border: '1px solid #334155',
-                backgroundColor: '#1e293b',
-                color: '#fff',
-                fontSize: '14px',
+                backgroundColor: '#0f172a',
+                color: '#f8fafc',
+                fontSize: '13.5px',
                 outline: 'none',
               }}
             />
@@ -216,16 +234,19 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
             disabled={isLoading}
             style={{
               width: '100%',
-              padding: '12px',
-              borderRadius: '8px',
-              backgroundColor: '#2563eb',
-              color: '#fff',
+              minHeight: '40px',
+              padding: '10px 16px',
+              borderRadius: '6px',
+              backgroundColor: '#00a896',
+              color: '#ffffff',
               fontSize: '14px',
               fontWeight: 600,
+              fontFamily: 'inherit',
               border: 'none',
               cursor: isLoading ? 'not-allowed' : 'pointer',
               opacity: isLoading ? 0.7 : 1,
-              transition: 'background-color 0.15s ease',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 0 12px rgba(0, 168, 150, 0.25)',
             }}
           >
             {isLoading ? 'Autenticando en SATEM...' : 'Iniciar Sesión'}
@@ -233,8 +254,8 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
         </form>
 
         {/* Quick Demo Access Section */}
-        <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid #1e293b' }}>
-          <p style={{ margin: '0 0 12px', fontSize: '12px', color: '#94a3b8', textAlign: 'center', fontWeight: 500 }}>
+        <div style={{ marginTop: '24px', paddingTop: '18px', borderTop: '1px solid #1e293b' }}>
+          <p style={{ margin: '0 0 10px', fontSize: '11.5px', color: '#94a3b8', textAlign: 'center', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             Acceso Rápido para Pruebas Locales:
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -249,14 +270,15 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
                 borderRadius: '6px',
                 backgroundColor: '#1e293b',
                 border: '1px solid #334155',
-                color: '#e2e8f0',
+                color: '#f8fafc',
                 fontSize: '12px',
                 cursor: 'pointer',
                 textAlign: 'left',
+                transition: 'border-color 0.15s',
               }}
             >
-              <span>👑 <strong>Administrador (OrgAdmin)</strong></span>
-              <span style={{ color: '#38bdf8' }}>admin@satem.cl</span>
+              <span>🛡️ <strong>Administrador (OrgAdmin)</strong></span>
+              <span style={{ color: '#00a896', fontWeight: 600 }}>admin@satem.cl</span>
             </button>
 
             <button
@@ -270,14 +292,15 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
                 borderRadius: '6px',
                 backgroundColor: '#1e293b',
                 border: '1px solid #334155',
-                color: '#e2e8f0',
+                color: '#f8fafc',
                 fontSize: '12px',
                 cursor: 'pointer',
                 textAlign: 'left',
+                transition: 'border-color 0.15s',
               }}
             >
               <span>🎧 <strong>Agente de Soporte N2</strong></span>
-              <span style={{ color: '#38bdf8' }}>agente.demo@satem.cl</span>
+              <span style={{ color: '#00a896', fontWeight: 600 }}>agente.demo@satem.cl</span>
             </button>
 
             <button
@@ -291,14 +314,15 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess, onBypassDemo })
                 borderRadius: '6px',
                 backgroundColor: '#1e293b',
                 border: '1px solid #334155',
-                color: '#e2e8f0',
+                color: '#f8fafc',
                 fontSize: '12px',
                 cursor: 'pointer',
                 textAlign: 'left',
+                transition: 'border-color 0.15s',
               }}
             >
-              <span>🙋‍♂️ <strong>Cliente Solicitante</strong></span>
-              <span style={{ color: '#38bdf8' }}>cliente.demo@satem.cl</span>
+              <span>👤 <strong>Cliente Solicitante</strong></span>
+              <span style={{ color: '#00a896', fontWeight: 600 }}>cliente.demo@satem.cl</span>
             </button>
           </div>
         </div>

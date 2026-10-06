@@ -47,45 +47,61 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#0f172a', color: '#f8fafc', fontFamily: 'Inter, sans-serif' }}>
       {/* Header Corporativo */}
-      <header style={{ backgroundColor: '#0f172a', color: '#fff', padding: '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <header
+        style={{
+          backgroundColor: '#1e293b',
+          borderBottom: '1px solid #334155',
+          color: '#f8fafc',
+          padding: '16px 32px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <div>
-          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 700 }}>Portal de Ayuda — {tenantName}</h1>
+          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 700, fontFamily: "'Outfit', sans-serif" }}>
+            Portal de Ayuda - {tenantName}
+          </h1>
+          <span style={{ fontSize: '12px', color: '#94a3b8' }}>Atención al Usuario &amp; Mesa de Ayuda SATEM</span>
         </div>
         <button
           type="button"
           onClick={() => setView(view === 'LIST' ? 'CREATE' : 'LIST')}
           style={{
-            backgroundColor: '#2563eb',
-            color: '#fff',
+            backgroundColor: '#00a896',
+            color: '#ffffff',
             border: 'none',
             borderRadius: '6px',
-            padding: '8px 16px',
+            padding: '9px 18px',
+            fontSize: '13px',
             fontWeight: 600,
             cursor: 'pointer',
+            boxShadow: '0 0 10px rgba(0, 168, 150, 0.25)',
+            transition: 'background-color 0.15s ease',
           }}
         >
-          {view === 'LIST' ? '+ Abrir Nueva Solicitud' : '← Volver a Mis Solicitudes'}
+          {view === 'LIST' ? '+ Abrir Nueva Solicitud' : 'Volver a Mis Solicitudes'}
         </button>
       </header>
 
       {/* Contenido Principal */}
       <main style={{ maxWidth: '1000px', margin: '32px auto', padding: '0 16px' }}>
         {view === 'CREATE' ? (
-          <div style={{ backgroundColor: '#fff', borderRadius: '8px', padding: '32px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h2 style={{ marginTop: 0, fontSize: '20px', color: '#1e293b', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
+          <div style={{ backgroundColor: '#1e293b', borderRadius: '12px', padding: '32px', border: '1px solid #334155', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)' }}>
+            <h2 style={{ marginTop: 0, fontSize: '20px', fontFamily: "'Outfit', sans-serif", color: '#f8fafc', borderBottom: '1px solid #334155', paddingBottom: '12px' }}>
               Nueva Solicitud de Soporte
             </h2>
             <form onSubmit={handleSubmit}>
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#475569', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Categoría del Requerimiento
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #334155', backgroundColor: '#0f172a', color: '#f8fafc', outline: 'none' }}
                 >
                   {categories.map((c) => (
                     <option key={c} value={c}>{c}</option>
@@ -94,7 +110,7 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#475569', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Asunto / Título Resumido
                 </label>
                 <input
@@ -103,18 +119,18 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Ej: No puedo ingresar al módulo de remuneraciones"
-                  style={{ width: '100%', boxSizing: 'border-box', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '10px 12px', borderRadius: '6px', border: '1px solid #334155', backgroundColor: '#0f172a', color: '#f8fafc', outline: 'none' }}
                 />
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#475569', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Prioridad Estimada
                 </label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
-                  style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #334155', backgroundColor: '#0f172a', color: '#f8fafc', outline: 'none' }}
                 >
                   <option value="LOW">Baja (Consultas generales)</option>
                   <option value="MEDIUM">Media (Afecta parcialmente mi trabajo)</option>
@@ -124,7 +140,7 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
               </div>
 
               <div style={{ marginBottom: '24px' }}>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#475569', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Descripción Detallada
                 </label>
                 <textarea
@@ -133,7 +149,7 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe los pasos para reproducir el problema o los antecedentes necesarios..."
-                  style={{ width: '100%', boxSizing: 'border-box', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '10px 12px', borderRadius: '6px', border: '1px solid #334155', backgroundColor: '#0f172a', color: '#f8fafc', outline: 'none', fontFamily: 'inherit' }}
                 />
               </div>
 
@@ -141,13 +157,13 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
                 <button
                   type="button"
                   onClick={() => setView('LIST')}
-                  style={{ padding: '10px 20px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#fff', cursor: 'pointer' }}
+                  style={{ padding: '9px 18px', borderRadius: '6px', border: '1px solid #475569', background: '#334155', color: '#f8fafc', cursor: 'pointer', fontWeight: 500 }}
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  style={{ padding: '10px 24px', borderRadius: '6px', border: 'none', background: '#2563eb', color: '#fff', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ padding: '9px 22px', borderRadius: '6px', border: 'none', background: '#00a896', color: '#ffffff', fontWeight: 600, cursor: 'pointer', boxShadow: '0 0 10px rgba(0, 168, 150, 0.25)' }}
                 >
                   Enviar Ticket
                 </button>
@@ -157,46 +173,48 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
         ) : (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h2 style={{ fontSize: '18px', color: '#1e293b', margin: 0 }}>Mis Solicitudes Activas</h2>
-              <span style={{ fontSize: '13px', color: '#64748b' }}>Mostrando {tickets.length} solicitudes</span>
+              <h2 style={{ fontSize: '18px', fontFamily: "'Outfit', sans-serif", color: '#f8fafc', margin: 0 }}>Mis Solicitudes Activas</h2>
+              <span style={{ fontSize: '13px', color: '#94a3b8' }}>Mostrando {tickets.length} solicitudes</span>
             </div>
 
             {tickets.length === 0 ? (
-              <div style={{ backgroundColor: '#fff', borderRadius: '8px', padding: '48px', textAlign: 'center', color: '#64748b' }}>
+              <div style={{ backgroundColor: '#1e293b', borderRadius: '10px', padding: '48px', textAlign: 'center', color: '#94a3b8', border: '1px solid #334155' }}>
                 No tienes solicitudes abiertas en este momento.
               </div>
             ) : (
-              <div style={{ backgroundColor: '#fff', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              <div style={{ backgroundColor: '#1e293b', borderRadius: '10px', overflow: 'hidden', border: '1px solid #334155', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.2)' }}>
                 {tickets.map((t) => (
                   <div
                     key={t.id}
                     onClick={() => onViewTicket(t.id)}
                     style={{
                       padding: '16px 24px',
-                      borderBottom: '1px solid #f1f5f9',
+                      borderBottom: '1px solid #334155',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       cursor: 'pointer',
+                      transition: 'background-color 0.15s',
                     }}
                   >
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                        <span style={{ fontWeight: 700, fontSize: '13px', color: '#2563eb' }}>{t.ticketCode}</span>
-                        <span style={{ fontWeight: 600, fontSize: '14px', color: '#1e293b' }}>{t.title}</span>
+                        <span style={{ fontWeight: 700, fontSize: '13px', color: '#00a896' }}>{t.ticketCode}</span>
+                        <span style={{ fontWeight: 600, fontSize: '14px', color: '#f8fafc' }}>{t.title}</span>
                       </div>
-                      <div style={{ fontSize: '12px', color: '#64748b' }}>
+                      <div style={{ fontSize: '12px', color: '#94a3b8' }}>
                         Creado: {t.createdAt} • Última actualización: {t.lastUpdate}
                       </div>
                     </div>
                     <div>
                       <span
                         style={{
-                          backgroundColor: t.status === 'SOLVED' ? '#dcfce7' : '#e0e7ff',
-                          color: t.status === 'SOLVED' ? '#166534' : '#3730a3',
-                          fontSize: '12px',
+                          backgroundColor: t.status === 'SOLVED' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(0, 168, 150, 0.15)',
+                          color: t.status === 'SOLVED' ? '#10b981' : '#00a896',
+                          border: '1px solid ' + (t.status === 'SOLVED' ? '#10b981' : '#00a896'),
+                          fontSize: '11.5px',
                           fontWeight: 600,
-                          padding: '4px 10px',
+                          padding: '3px 10px',
                           borderRadius: '9999px',
                         }}
                       >

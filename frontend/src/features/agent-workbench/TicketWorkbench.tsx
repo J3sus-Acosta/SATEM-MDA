@@ -117,35 +117,44 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
   const getPriorityBadgeColor = (p: string) => {
     switch (p) {
       case 'URGENT':
-        return '#f5222d';
+        return '#ef4444';
       case 'HIGH':
-        return '#fa8c16';
+        return '#f97316';
       case 'MEDIUM':
-        return '#1890ff';
+        return '#00a896';
       default:
-        return '#52c41a';
+        return '#10b981';
     }
   };
 
   const getSlaBadge = (health: string, dueText: string) => {
-    let bg = '#e6f7ff';
-    let color = '#096dd9';
+    let bg = 'rgba(16, 185, 129, 0.15)';
+    let color = '#10b981';
+    let border = '1px solid #10b981';
     if (health === 'WARNING') {
-      bg = '#fffbe6';
-      color = '#d48806';
+      bg = 'rgba(245, 158, 11, 0.15)';
+      color = '#f59e0b';
+      border = '1px solid #f59e0b';
     } else if (health === 'BREACHED') {
-      bg = '#fff1f0';
-      color = '#cf1322';
+      bg = 'rgba(239, 68, 68, 0.15)';
+      color = '#ef4444';
+      border = '1px solid #ef4444';
+    } else if (health === 'PENDING') {
+      bg = 'rgba(100, 116, 139, 0.15)';
+      color = '#94a3b8';
+      border = '1px solid #475569';
     }
     return (
       <span
         style={{
           background: bg,
           color,
+          border,
           fontSize: '11px',
           fontWeight: 600,
-          padding: '2px 6px',
-          borderRadius: '4px',
+          padding: '2px 7px',
+          borderRadius: '9999px',
+          whiteSpace: 'nowrap',
         }}
       >
         SLA: {dueText}
@@ -157,7 +166,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
     { id: 'ALL', label: 'Todos los Tickets', icon: '📂' },
     { id: 'MY_ASSIGNED', label: 'Mis Asignados', icon: '👤' },
     { id: 'UNASSIGNED', label: 'Tickets Sin Asignar', icon: '📥' },
-    { id: 'OPEN', label: 'Abiertos / En Curso', icon: '🟢' },
+    { id: 'OPEN', label: 'Abiertos / En Curso', icon: '⚡' },
     { id: 'PENDING', label: 'En Espera (Pending)', icon: '⏳' },
     { id: 'SOLVED', label: 'Resueltos (Solved)', icon: '✅' },
     { id: 'CLOSED', label: 'Cerrados Definitivos', icon: '🔒' },
@@ -188,7 +197,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
   };
 
   return (
-    <div style={{ display: 'flex', height: '100%', fontFamily: "'Inter', sans-serif", backgroundColor: '#f0f2f5', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', height: '100%', fontFamily: "'Inter', sans-serif", backgroundColor: '#0f172a', overflow: 'hidden' }}>
       {/* Modal de Nuevo Ticket */}
       <NewTicketModal
         isOpen={isModalOpen}
@@ -214,14 +223,14 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
       >
         <div style={{ padding: '16px 20px', borderBottom: '1px solid #1e293b', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '16px' }}>🗂️</span>
-          <span style={{ fontWeight: 700, fontSize: '13px', color: '#f8fafc', letterSpacing: '0.3px', textTransform: 'uppercase' }}>
-            SATEM Desk — Vistas
+          <span style={{ fontWeight: 700, fontSize: '13px', fontFamily: "'Outfit', sans-serif", color: '#f8fafc', letterSpacing: '0.3px', textTransform: 'uppercase' }}>
+            SATEM Desk - Vistas
           </span>
         </div>
 
         <div style={{ flex: 1, overflowY: 'auto', padding: '12px 8px' }}>
           {/* Lista de Carpetas Principales */}
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '3px' }}>
             {sidebarViews.map((item) => {
               const count = filterTicketsByView(tickets, item.id, currentUserId).length;
               const isSelected = selectedView === item.id;
@@ -237,7 +246,8 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                     borderRadius: '6px',
                     cursor: 'pointer',
                     backgroundColor: isSelected ? '#1e293b' : 'transparent',
-                    color: isSelected ? '#38bdf8' : '#94a3b8',
+                    borderLeft: isSelected ? '3px solid #00a896' : '3px solid transparent',
+                    color: isSelected ? '#00a896' : '#94a3b8',
                     fontSize: '13px',
                     fontWeight: isSelected ? 600 : 500,
                     transition: 'all 0.15s ease',
@@ -249,12 +259,13 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                   </div>
                   <span
                     style={{
-                      backgroundColor: isSelected ? '#0284c7' : '#1e293b',
+                      backgroundColor: isSelected ? '#00a896' : '#1e293b',
                       color: isSelected ? '#fff' : '#64748b',
                       fontSize: '11px',
                       fontWeight: 700,
                       padding: '2px 7px',
-                      borderRadius: '10px',
+                      borderRadius: '9999px',
+                      border: '1px solid ' + (isSelected ? '#008f80' : '#334155'),
                     }}
                   >
                     {count}
@@ -269,7 +280,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
             <span style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               Grupos de Soporte
             </span>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0 0', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0 0', display: 'flex', flexDirection: 'column', gap: '3px' }}>
               {groupViews.map((g) => {
                 const count = filterTicketsByView(tickets, g.id, currentUserId).length;
                 const isSelected = selectedView === g.id;
@@ -285,7 +296,8 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                       borderRadius: '6px',
                       cursor: 'pointer',
                       backgroundColor: isSelected ? '#1e293b' : 'transparent',
-                      color: isSelected ? '#38bdf8' : '#94a3b8',
+                      borderLeft: isSelected ? '3px solid #00a896' : '3px solid transparent',
+                      color: isSelected ? '#00a896' : '#94a3b8',
                       fontSize: '12px',
                     }}
                   >
@@ -303,8 +315,8 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
       <div
         style={{
           width: '340px',
-          background: '#fff',
-          borderRight: '1px solid #e2e8f0',
+          background: '#1e293b',
+          borderRight: '1px solid #334155',
           display: 'flex',
           flexDirection: 'column',
           flexShrink: 0,
@@ -313,17 +325,18 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
         <div
           style={{
             padding: '14px 16px',
-            borderBottom: '1px solid #e2e8f0',
+            borderBottom: '1px solid #334155',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            backgroundColor: '#0f172a',
           }}
         >
           <div>
-            <div style={{ fontWeight: 700, fontSize: '14px', color: '#0f172a' }}>
+            <div style={{ fontWeight: 700, fontSize: '14px', fontFamily: "'Outfit', sans-serif", color: '#f8fafc' }}>
               Bandeja de Entrada ({filteredTickets.length})
             </div>
-            <div style={{ fontSize: '11px', color: '#64748b' }}>
+            <div style={{ fontSize: '11px', color: '#94a3b8' }}>
               Vista: {sidebarViews.find((v) => v.id === selectedView)?.label || groupViews.find((g) => g.id === selectedView)?.label}
             </div>
           </div>
@@ -331,8 +344,8 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
             onClick={() => setIsModalOpen(true)}
             style={{
               padding: '6px 12px',
-              backgroundColor: '#2563eb',
-              color: '#fff',
+              backgroundColor: '#00a896',
+              color: '#ffffff',
               border: 'none',
               borderRadius: '6px',
               fontSize: '12px',
@@ -341,6 +354,8 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
+              boxShadow: '0 0 10px rgba(0, 168, 150, 0.25)',
+              transition: 'background-color 0.15s ease',
             }}
           >
             <span>+</span> Nuevo
@@ -361,15 +376,15 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                   onClick={() => onSelectTicket(t.id)}
                   style={{
                     padding: '14px 16px',
-                    borderBottom: '1px solid #f1f5f9',
+                    borderBottom: '1px solid #334155',
                     cursor: 'pointer',
-                    background: isActive ? '#f0f9ff' : '#fff',
-                    borderLeft: isActive ? '3px solid #0284c7' : '3px solid transparent',
+                    background: isActive ? '#0f172a' : '#1e293b',
+                    borderLeft: isActive ? '3px solid #00a896' : '3px solid transparent',
                     transition: 'all 0.1s ease',
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                    <span style={{ fontWeight: 700, fontSize: '12px', color: '#0284c7' }}>{t.ticketCode}</span>
+                    <span style={{ fontWeight: 700, fontSize: '12px', color: '#00a896' }}>{t.ticketCode}</span>
                     <span
                       style={{
                         backgroundColor: getPriorityBadgeColor(t.priority),
@@ -383,11 +398,11 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                       {t.priority}
                     </span>
                   </div>
-                  <div style={{ fontWeight: 600, fontSize: '13px', color: '#1e293b', marginBottom: '6px', lineHeight: 1.3 }}>
+                  <div style={{ fontWeight: 600, fontSize: '13px', color: '#f8fafc', marginBottom: '6px', lineHeight: 1.3 }}>
                     {t.title}
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '12px', color: '#64748b' }}>👤 {t.requesterName}</span>
+                    <span style={{ fontSize: '12px', color: '#94a3b8' }}>👤 {t.requesterName}</span>
                     {getSlaBadge(t.slaHealth, t.slaDueText)}
                   </div>
                 </div>
@@ -398,35 +413,36 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
       </div>
 
       {/* Columna 3: Detalle del Ticket y Respuestas */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden', backgroundColor: '#0f172a' }}>
         {activeTicket ? (
-          <div style={{ display: 'flex', flex: 1, height: '100%', overflow: 'hidden' }}>
-            {/* Panel Principal de Conversación */}
+          <div style={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
               {/* Collision Alert Banner */}
               <AgentCollisionBanner currentUserId={currentUserId} viewers={viewers as any} />
 
               {/* Encabezado del Ticket */}
-              <div style={{ padding: '16px 24px', background: '#fff', borderBottom: '1px solid #e2e8f0' }}>
+              <div style={{ padding: '16px 24px', background: '#1e293b', borderBottom: '1px solid #334155' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                  <span style={{ fontWeight: 700, fontSize: '14px', color: '#0284c7' }}>{activeTicket.ticketCode}</span>
-                  <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 600, backgroundColor: '#f1f5f9', color: '#475569' }}>
+                  <span style={{ fontWeight: 700, fontSize: '14px', color: '#00a896' }}>{activeTicket.ticketCode}</span>
+                  <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 600, backgroundColor: '#0f172a', color: '#94a3b8', border: '1px solid #334155' }}>
                     {activeTicket.status}
                   </span>
                   <span style={{ fontSize: '12px', color: '#94a3b8' }}>Creado: {activeTicket.createdAt}</span>
                 </div>
-                <h1 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>{activeTicket.title}</h1>
+                <h1 style={{ margin: 0, fontSize: '18px', fontWeight: 700, fontFamily: "'Outfit', sans-serif", color: '#f8fafc' }}>
+                  {activeTicket.title}
+                </h1>
               </div>
 
               {/* Hilo de Mensajes */}
               <div style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {/* Descripción Inicial */}
-                <div style={{ background: '#fff', padding: '16px 20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '12px', color: '#64748b' }}>
-                    <span style={{ fontWeight: 600, color: '#0f172a' }}>👤 {activeTicket.requesterName} (Solicitante)</span>
+                <div style={{ background: '#1e293b', padding: '16px 20px', borderRadius: '8px', border: '1px solid #334155' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '12px', color: '#94a3b8' }}>
+                    <span style={{ fontWeight: 600, color: '#f8fafc' }}>👤 {activeTicket.requesterName} (Solicitante)</span>
                     <span>Descripción del Ticket</span>
                   </div>
-                  <div style={{ fontSize: '14px', lineHeight: 1.5, color: '#334155', whiteSpace: 'pre-line' }}>
+                  <div style={{ fontSize: '14px', lineHeight: 1.5, color: '#cbd5e1', whiteSpace: 'pre-line' }}>
                     {activeTicket.description}
                   </div>
                 </div>
@@ -436,19 +452,19 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                   <div
                     key={m.id}
                     style={{
-                      background: m.type === 'INTERNAL_NOTE' ? '#fefce8' : '#fff',
-                      border: m.type === 'INTERNAL_NOTE' ? '1px solid #fef08a' : '1px solid #e2e8f0',
+                      background: m.type === 'INTERNAL_NOTE' ? 'rgba(245, 158, 11, 0.08)' : '#1e293b',
+                      border: m.type === 'INTERNAL_NOTE' ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid #334155',
                       borderRadius: '8px',
                       padding: '16px 20px',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '12px' }}>
-                      <span style={{ fontWeight: 600, color: m.type === 'INTERNAL_NOTE' ? '#854d0e' : '#0f172a' }}>
-                        {m.type === 'INTERNAL_NOTE' ? '🔒 Nota Interna — ' : '💬 '} {m.authorName}
+                      <span style={{ fontWeight: 600, color: m.type === 'INTERNAL_NOTE' ? '#fbbf24' : '#f8fafc' }}>
+                        {m.type === 'INTERNAL_NOTE' ? '🔒 Nota Interna - ' : '💬 '} {m.authorName}
                       </span>
                       <span style={{ color: '#94a3b8' }}>{m.createdAt}</span>
                     </div>
-                    <div style={{ fontSize: '13px', lineHeight: 1.5, color: '#334155', whiteSpace: 'pre-line' }}>
+                    <div style={{ fontSize: '13px', lineHeight: 1.5, color: m.type === 'INTERNAL_NOTE' ? '#fef08a' : '#cbd5e1', whiteSpace: 'pre-line' }}>
                       {m.body}
                     </div>
                   </div>
@@ -456,7 +472,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
               </div>
 
               {/* Compositor de Respuestas */}
-              <div style={{ padding: '16px 24px', background: '#fff', borderTop: '1px solid #e2e8f0' }}>
+              <div style={{ padding: '16px 24px', background: '#1e293b', borderTop: '1px solid #334155' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button
@@ -465,12 +481,13 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                       style={{
                         padding: '6px 14px',
                         borderRadius: '6px',
-                        border: '1px solid #2563eb',
-                        backgroundColor: activeTab === 'PUBLIC_REPLY' ? '#2563eb' : '#fff',
-                        color: activeTab === 'PUBLIC_REPLY' ? '#fff' : '#2563eb',
+                        border: '1px solid ' + (activeTab === 'PUBLIC_REPLY' ? '#00a896' : '#334155'),
+                        backgroundColor: activeTab === 'PUBLIC_REPLY' ? '#00a896' : '#0f172a',
+                        color: activeTab === 'PUBLIC_REPLY' ? '#ffffff' : '#94a3b8',
                         fontSize: '12px',
                         fontWeight: 600,
                         cursor: 'pointer',
+                        transition: 'all 0.15s ease',
                       }}
                     >
                       Respuesta Pública
@@ -481,12 +498,13 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                       style={{
                         padding: '6px 14px',
                         borderRadius: '6px',
-                        border: '1px solid #eab308',
-                        backgroundColor: activeTab === 'INTERNAL_NOTE' ? '#fef08a' : '#fff',
-                        color: activeTab === 'INTERNAL_NOTE' ? '#854d0e' : '#a16207',
+                        border: '1px solid ' + (activeTab === 'INTERNAL_NOTE' ? '#f59e0b' : '#334155'),
+                        backgroundColor: activeTab === 'INTERNAL_NOTE' ? 'rgba(245, 158, 11, 0.2)' : '#0f172a',
+                        color: activeTab === 'INTERNAL_NOTE' ? '#fbbf24' : '#94a3b8',
                         fontSize: '12px',
                         fontWeight: 600,
                         cursor: 'pointer',
+                        transition: 'all 0.15s ease',
                       }}
                     >
                       🔒 Nota Interna Privada
@@ -495,7 +513,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
 
                   {/* Selector Rápido de Macros */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '12px', color: '#64748b' }}>⚡ Macro:</span>
+                    <span style={{ fontSize: '12px', color: '#94a3b8' }}>⚡ Macro:</span>
                     <select
                       onChange={(e) => {
                         handleMacroSelect(e.target.value);
@@ -504,10 +522,12 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                       defaultValue=""
                       style={{
                         fontSize: '12px',
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        border: '1px solid #cbd5e1',
-                        backgroundColor: '#f8fafc',
+                        padding: '5px 8px',
+                        borderRadius: '6px',
+                        border: '1px solid #334155',
+                        backgroundColor: '#0f172a',
+                        color: '#f8fafc',
+                        outline: 'none',
                       }}
                     >
                       <option value="" disabled>Seleccionar acción rápida...</option>
@@ -531,9 +551,10 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                     boxSizing: 'border-box',
                     padding: '10px 12px',
                     borderRadius: '6px',
-                    border: '1px solid #cbd5e1',
+                    border: '1px solid #334155',
                     fontSize: '13px',
-                    backgroundColor: activeTab === 'INTERNAL_NOTE' ? '#fefce8' : '#fff',
+                    backgroundColor: activeTab === 'INTERNAL_NOTE' ? 'rgba(245, 158, 11, 0.05)' : '#0f172a',
+                    color: '#f8fafc',
                     outline: 'none',
                     fontFamily: 'inherit',
                   }}
@@ -552,11 +573,12 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                       padding: '8px 18px',
                       borderRadius: '6px',
                       border: 'none',
-                      backgroundColor: activeTab === 'PUBLIC_REPLY' ? '#2563eb' : '#eab308',
-                      color: activeTab === 'PUBLIC_REPLY' ? '#fff' : '#713f12',
+                      backgroundColor: activeTab === 'PUBLIC_REPLY' ? '#00a896' : '#d97706',
+                      color: '#ffffff',
                       fontSize: '13px',
                       fontWeight: 600,
                       cursor: 'pointer',
+                      boxShadow: '0 0 10px rgba(0, 168, 150, 0.25)',
                     }}
                   >
                     Enviar {activeTab === 'PUBLIC_REPLY' ? 'Respuesta Pública' : 'Nota Interna'}
@@ -569,8 +591,8 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
             <div
               style={{
                 width: '240px',
-                background: '#fff',
-                borderLeft: '1px solid #e2e8f0',
+                background: '#1e293b',
+                borderLeft: '1px solid #334155',
                 padding: '20px',
                 display: 'flex',
                 flexDirection: 'column',
@@ -578,12 +600,12 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                 flexShrink: 0,
               }}
             >
-              <div style={{ fontWeight: 700, fontSize: '13px', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
+              <div style={{ fontWeight: 700, fontSize: '13px', fontFamily: "'Outfit', sans-serif", color: '#f8fafc', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
                 Propiedades
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Estado
                 </label>
                 <select
@@ -597,10 +619,12 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                     width: '100%',
                     padding: '7px 10px',
                     borderRadius: '6px',
-                    border: '1px solid #cbd5e1',
+                    border: '1px solid #334155',
                     fontSize: '13px',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: '#0f172a',
+                    color: '#f8fafc',
                     fontWeight: 600,
+                    outline: 'none',
                   }}
                 >
                   <option value="NEW">Nuevo (New)</option>
@@ -613,7 +637,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Prioridad
                 </label>
                 <select
@@ -627,10 +651,12 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                     width: '100%',
                     padding: '7px 10px',
                     borderRadius: '6px',
-                    border: '1px solid #cbd5e1',
+                    border: '1px solid #334155',
                     fontSize: '13px',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: '#0f172a',
+                    color: '#f8fafc',
                     fontWeight: 600,
+                    outline: 'none',
                   }}
                 >
                   <option value="LOW">Baja (Low)</option>
@@ -641,7 +667,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Grupo Resolutor
                 </label>
                 <select
@@ -655,9 +681,11 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                     width: '100%',
                     padding: '7px 10px',
                     borderRadius: '6px',
-                    border: '1px solid #cbd5e1',
+                    border: '1px solid #334155',
                     fontSize: '13px',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: '#0f172a',
+                    color: '#f8fafc',
+                    outline: 'none',
                   }}
                 >
                   <option value="Soporte N1 (Mesa de Entrada)">Soporte N1 (Mesa de Entrada)</option>
@@ -667,7 +695,7 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                   Agente Asignado
                 </label>
                 <select
@@ -681,9 +709,11 @@ export const TicketWorkbench: React.FC<TicketWorkbenchProps> = ({
                     width: '100%',
                     padding: '7px 10px',
                     borderRadius: '6px',
-                    border: '1px solid #cbd5e1',
+                    border: '1px solid #334155',
                     fontSize: '13px',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: '#0f172a',
+                    color: '#f8fafc',
+                    outline: 'none',
                   }}
                 >
                   <option value="Sin Asignar">Sin Asignar</option>

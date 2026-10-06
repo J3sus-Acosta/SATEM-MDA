@@ -41,10 +41,11 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
 
   return (
     <div
+      className="modal-overlay"
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(15, 23, 42, 0.75)',
+        backgroundColor: 'rgba(15, 23, 42, 0.85)',
         backdropFilter: 'blur(4px)',
         display: 'flex',
         alignItems: 'center',
@@ -53,23 +54,28 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
         padding: '16px',
         fontFamily: "'Inter', sans-serif",
       }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       <div
+        className="modal-dialog"
         style={{
           width: '100%',
-          maxWidth: '540px',
-          backgroundColor: '#ffffff',
-          borderRadius: '12px',
-          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+          maxWidth: '560px',
+          backgroundColor: '#1e293b',
+          borderRadius: '16px',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 168, 150, 0.15)',
           overflow: 'hidden',
-          border: '1px solid #e2e8f0',
+          border: '1px solid #334155',
         }}
       >
         <div
           style={{
             padding: '16px 24px',
             backgroundColor: '#0f172a',
-            color: '#fff',
+            color: '#f8fafc',
+            borderBottom: '1px solid #334155',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -77,26 +83,31 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '18px' }}>🎫</span>
-            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>Nuevo Ticket de Soporte</h2>
+            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700, fontFamily: "'Outfit', sans-serif", color: '#f8fafc' }}>
+              Nuevo Ticket de Soporte
+            </h2>
           </div>
           <button
+            type="button"
             onClick={onClose}
+            aria-label="Cerrar modal"
             style={{
               background: 'transparent',
               border: 'none',
               color: '#94a3b8',
-              fontSize: '20px',
+              fontSize: '22px',
               cursor: 'pointer',
               lineHeight: 1,
+              padding: '4px',
             }}
           >
-            ×
+            ✕
           </button>
         </div>
 
         <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
           <div style={{ marginBottom: '14px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
               Solicitante (Cliente o Empleado) *
             </label>
             <input
@@ -110,15 +121,17 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
                 boxSizing: 'border-box',
                 padding: '9px 12px',
                 borderRadius: '6px',
-                border: '1px solid #cbd5e1',
-                fontSize: '14px',
+                border: '1px solid #334155',
+                backgroundColor: '#0f172a',
+                color: '#f8fafc',
+                fontSize: '13.5px',
                 outline: 'none',
               }}
             />
           </div>
 
           <div style={{ marginBottom: '14px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
               Asunto / Título *
             </label>
             <input
@@ -132,8 +145,10 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
                 boxSizing: 'border-box',
                 padding: '9px 12px',
                 borderRadius: '6px',
-                border: '1px solid #cbd5e1',
-                fontSize: '14px',
+                border: '1px solid #334155',
+                backgroundColor: '#0f172a',
+                color: '#f8fafc',
+                fontSize: '13.5px',
                 outline: 'none',
               }}
             />
@@ -141,7 +156,7 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                 Prioridad
               </label>
               <select
@@ -152,9 +167,11 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
                   boxSizing: 'border-box',
                   padding: '9px 12px',
                   borderRadius: '6px',
-                  border: '1px solid #cbd5e1',
-                  fontSize: '14px',
-                  backgroundColor: '#fff',
+                  border: '1px solid #334155',
+                  backgroundColor: '#0f172a',
+                  color: '#f8fafc',
+                  fontSize: '13.5px',
+                  outline: 'none',
                 }}
               >
                 <option value="LOW">Baja (Low)</option>
@@ -165,7 +182,7 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
                 Grupo Asignado
               </label>
               <select
@@ -176,9 +193,11 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
                   boxSizing: 'border-box',
                   padding: '9px 12px',
                   borderRadius: '6px',
-                  border: '1px solid #cbd5e1',
-                  fontSize: '14px',
-                  backgroundColor: '#fff',
+                  border: '1px solid #334155',
+                  backgroundColor: '#0f172a',
+                  color: '#f8fafc',
+                  fontSize: '13.5px',
+                  outline: 'none',
                 }}
               >
                 <option value="Soporte N1 (Mesa de Entrada)">Soporte N1 (Mesa de Entrada)</option>
@@ -189,7 +208,7 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
           </div>
 
           <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#94a3b8', marginBottom: '6px' }}>
               Descripción del Problema *
             </label>
             <textarea
@@ -203,8 +222,10 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
                 boxSizing: 'border-box',
                 padding: '9px 12px',
                 borderRadius: '6px',
-                border: '1px solid #cbd5e1',
-                fontSize: '14px',
+                border: '1px solid #334155',
+                backgroundColor: '#0f172a',
+                color: '#f8fafc',
+                fontSize: '13.5px',
                 outline: 'none',
                 fontFamily: 'inherit',
               }}
@@ -216,11 +237,11 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
               type="button"
               onClick={onClose}
               style={{
-                padding: '9px 16px',
+                padding: '8px 16px',
                 borderRadius: '6px',
-                border: '1px solid #cbd5e1',
-                backgroundColor: '#fff',
-                color: '#475569',
+                border: '1px solid #475569',
+                backgroundColor: '#334155',
+                color: '#f8fafc',
                 fontSize: '13px',
                 fontWeight: 600,
                 cursor: 'pointer',
@@ -231,15 +252,15 @@ export const NewTicketModal: React.FC<NewTicketModalProps> = ({ isOpen, onClose,
             <button
               type="submit"
               style={{
-                padding: '9px 18px',
+                padding: '8px 18px',
                 borderRadius: '6px',
                 border: 'none',
-                backgroundColor: '#2563eb',
-                color: '#fff',
+                backgroundColor: '#00a896',
+                color: '#ffffff',
                 fontSize: '13px',
                 fontWeight: 600,
                 cursor: 'pointer',
-                boxShadow: '0 2px 4px rgba(37, 99, 235, 0.2)',
+                boxShadow: '0 0 10px rgba(0, 168, 150, 0.25)',
               }}
             >
               Crear Ticket
